@@ -19,6 +19,12 @@ def generate_launch_description():
     pkg_project_description = get_package_share_directory("leo_description")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
 
+    sim_world = DeclareLaunchArgument(
+        "sim_world",
+        default_value=os.path.join(pkg_project_gazebo, "worlds", "empty.sdf"),
+        description="Path to the Gazebo world file",
+    )
+
     # Load the SDF file from "description" package
     robot_desc = xacro.process(
         os.path.join(pkg_project_description, "urdf", "leo_sim.urdf.xacro")
@@ -29,11 +35,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, "launch", "gz_sim.launch.py")
         ),
-        launch_arguments={
-            "gz_args": PathJoinSubstitution(
-                [pkg_project_gazebo, "worlds", "empty.sdf"]
-            ),
-        }.items(),
+        launch_arguments={"gz_args": LaunchConfiguration("sim_world")}.items(),
     )
 
     leo_rover = Node(
@@ -57,7 +59,7 @@ def generate_launch_description():
     )
 
     # Bridge ROS topics and Gazebo messages for establishing communication
-    bridge = Node(
+    topic_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
         parameters=[
@@ -71,11 +73,19 @@ def generate_launch_description():
         output="screen",
     )
 
+    image_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        arguments=["/camera/image_raw"],
+        output="screen",
+    )
     return LaunchDescription(
         [
+            sim_world,
             gz_sim,
             robot_state_publisher,
-            bridge,
+            topic_bridge,
             leo_rover,
+            image_bridge,
         ]
     )
