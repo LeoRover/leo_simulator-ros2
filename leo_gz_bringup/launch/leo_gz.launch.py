@@ -6,9 +6,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
-from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration
 
 from launch_ros.actions import Node
 
@@ -25,7 +24,6 @@ def generate_launch_description():
         description="Path to the Gazebo world file",
     )
 
-    # Load the SDF file from "description" package
     robot_desc = xacro.process(
         os.path.join(pkg_project_description, "urdf", "leo_sim.urdf.xacro")
     )
@@ -73,6 +71,7 @@ def generate_launch_description():
         output="screen",
     )
 
+    # Camera image bridge
     image_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
