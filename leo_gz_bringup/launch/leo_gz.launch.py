@@ -14,19 +14,15 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     # Setup project paths
-    pkg_project_gazebo = get_package_share_directory("leo_gz_bringup")
-    pkg_project_description = get_package_share_directory("leo_description")
     pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
+    pkg_project_gazebo = get_package_share_directory("leo_gz_bringup")
     pkg_project_worlds = get_package_share_directory("leo_gz_worlds")
+    pkg_project_description = get_package_share_directory("leo_description")
 
     sim_world = DeclareLaunchArgument(
         "sim_world",
         default_value=os.path.join(pkg_project_worlds, "worlds", "marsyard2021.sdf"),
         description="Path to the Gazebo world file",
-    )
-
-    robot_desc = xacro.process(
-        os.path.join(pkg_project_description, "urdf", "leo_sim.urdf.xacro")
     )
 
     # Setup to launch the simulator and Gazebo world
@@ -37,12 +33,14 @@ def generate_launch_description():
         launch_arguments={"gz_args": LaunchConfiguration("sim_world")}.items(),
     )
 
-    leo_rover = Node(
-        package="ros_gz_sim",
-        executable="create",
-        name="ros_gz_sim_create",
-        output="both",
-        arguments=["-topic", "robot_description", "-name", "leo_rover", "-z", "1.65"],
+    robot_sim = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_project_gazebo, "launch", "spawn_robot.launch.py")
+        ),
+    )
+
+    robot_desc = xacro.process(
+        os.path.join(pkg_project_description, "urdf", "leo_sim.urdf.xacro")
     )
 
     # Takes the description and joint angles as inputs and publishes the 3D poses of the robot links
@@ -79,13 +77,14 @@ def generate_launch_description():
         arguments=["/camera/image_raw"],
         output="screen",
     )
+
     return LaunchDescription(
         [
             sim_world,
             gz_sim,
+            robot_sim,
             robot_state_publisher,
             topic_bridge,
-            leo_rover,
             image_bridge,
         ]
     )
