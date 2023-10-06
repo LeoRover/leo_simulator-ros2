@@ -9,6 +9,8 @@ find_package(ament_cmake REQUIRED)
 
 if(DEFINED ENV{GZ_VERSION})
   message("GZ_VERSION is set to $ENV{GZ_VERSION}")
+  add_library(leo_gazebo_differential_plugin SHARED
+    src/differential_system.cpp)
 
   if($ENV{GZ_VERSION} STREQUAL "fortress")
     find_package(ignition-plugin1 REQUIRED COMPONENTS register)
@@ -20,8 +22,7 @@ if(DEFINED ENV{GZ_VERSION})
     find_package(ignition-gazebo6 REQUIRED)
     set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
 
-    add_library(leo_gazebo_differential_plugin SHARED
-    src/differential_system_fortress.cpp)
+    add_definitions(-DUSE_IGNITION)
 
     target_link_libraries(leo_gazebo_differential_plugin
       ignition-common${IGN_COMMON_VER}::ignition-common${IGN_COMMON_VER}
@@ -34,10 +35,7 @@ if(DEFINED ENV{GZ_VERSION})
     
     find_package(gz-sim7 REQUIRED)
     set(GZ_SIM_VER ${gz-sim7_VERSION_MAJOR})
-
-    add_library(leo_gazebo_differential_plugin SHARED
-    src/differential_system_garden.cpp)
-
+    
     target_link_libraries(leo_gazebo_differential_plugin
       gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER}
       gz-plugin${GZ_PLUGIN_VER}::gz-plugin${GZ_PLUGIN_VER}  
@@ -45,7 +43,7 @@ if(DEFINED ENV{GZ_VERSION})
   endif()
 
 else()
-  message(FATAL_ERROR "GZ_VERSION is not set. Aborting build.")
+  message(FATAL_ERROR "Enviormental variable GZ_VERSION is not set. Aborting build.")
   return()
 endif()
 
