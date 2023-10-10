@@ -1,0 +1,29 @@
+name: CI-Humble
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - humble
+  pull_request:
+    branches:
+      - humble
+
+env:
+ ROS_DISTRO: humble
+
+jobs:
+  industrial_ci:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        ROS_REPO: [testing, main]
+    env:
+      ROS_REPO: ${{ matrix.ROS_REPO }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Source tests
+        uses: "ros-industrial/industrial_ci@master"
+        env:
+          UPSTREAM_WORKSPACE: "github:LeoRover/leo_common-ros2#humble"
