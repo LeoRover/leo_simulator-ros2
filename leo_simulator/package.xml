@@ -16,6 +16,11 @@
   <exec_depend>leo_gz_bringup</exec_depend>
   <exec_depend>leo_gz_plugins</exec_depend>
 
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_cmake_copyright</test_depend>
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
     <architecture_independent/>
