@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - humble
+  pull_request:
+    branches:
+      - humble
+
+jobs:
+  fortress_ci:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        ROS_REPO: [testing, main]
+    env:
+      GZ_VERSION: fortress
+    steps:
+      - name: Setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          use-ros2-testing: ${{ matrix.ROS_REPO == 'testing' }}
+      - name: Run ROS CI
+        uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          target-ros2-distro: humble
+          import-token: ${{ secrets.GITHUB_TOKEN }}
+
+  black_check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Check formatting
+        uses: psf/black@stable
+        with:
+          version: "~= 23.0"
