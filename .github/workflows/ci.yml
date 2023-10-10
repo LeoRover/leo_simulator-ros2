@@ -1,4 +1,4 @@
-name: CI-Humble
+name: CI
 
 on:
   workflow_dispatch:
@@ -27,3 +27,13 @@ jobs:
         with:
           target-ros2-distro: humble
           import-token: ${{ secrets.GITHUB_TOKEN }}
+
+  black_check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Check formatting
+        uses: psf/black@stable
+        with:
+          version: "~= 23.0"
