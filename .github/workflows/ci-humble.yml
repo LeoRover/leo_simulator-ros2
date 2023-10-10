@@ -9,22 +9,25 @@ on:
     branches:
       - humble
 
-env:
- ROS_DISTRO: humble
- GZ_VERSION: fortress
-
 jobs:
-  industrial_ci:
-    runs-on: ubuntu-20.04
+  fortress_ci:
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        ROS_REPO: [testing, main]
+        ros_testing:
+          - true
+          - false
     env:
-      ROS_REPO: ${{ matrix.ROS_REPO }}
+      GZ_VERSION: fortress
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Source tests
-        uses: "ros-industrial/industrial_ci@master"
-        env:
-          UPSTREAM_WORKSPACE: "github:LeoRover/leo_common-ros2#humble"
+      - name: Setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          use-ros2-testing: ${{ matrix.ros_testing }}
+          required-ros-distributions: humble
+      - name: Run ROS CI
+        uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          target-ros2-distro: humble
