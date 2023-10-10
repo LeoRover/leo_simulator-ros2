@@ -10,6 +10,17 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <!-- Garden -->
+  <depend condition="$GZ_VERSION == garden or $IGNITION_VERSION == garden">gz-plugin2</depend>
+  <depend condition="$GZ_VERSION == garden or $IGNITION_VERSION == garden">gz-sim7</depend>
+  <!-- Fortress (default) -->
+  <depend condition="$GZ_VERSION == fortress or $IGNITION_VERSION == fortress">ignition-plugin1</depend>
+  <depend condition="$GZ_VERSION == fortress or $IGNITION_VERSION == fortress">ignition-common4</depend>
+  <depend condition="$GZ_VERSION == fortress or $IGNITION_VERSION == fortress">ignition-gazebo6</depend>
+  <depend condition="$GZ_VERSION == '' and $IGNITION_VERSION == ''">ignition-plugin1</depend>
+  <depend condition="$GZ_VERSION == '' and $IGNITION_VERSION == ''">ignition-common4</depend>
+  <depend condition="$GZ_VERSION == '' and $IGNITION_VERSION == ''">ignition-gazebo6</depend>
+
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
