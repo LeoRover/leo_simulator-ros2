@@ -1,5 +1,4 @@
 import os
-import xacro
 
 from ament_index_python.packages import get_package_share_directory
 
@@ -8,8 +7,6 @@ from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-
-from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -20,7 +17,7 @@ def generate_launch_description():
 
     sim_world = DeclareLaunchArgument(
         "sim_world",
-        default_value=os.path.join(pkg_project_worlds, "worlds", "marsyard2021.sdf"),
+        default_value=os.path.join(pkg_project_worlds, "worlds", "empty.sdf"),
         description="Path to the Gazebo world file",
     )
 
