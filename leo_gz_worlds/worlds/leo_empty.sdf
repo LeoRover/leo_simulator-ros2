@@ -1,6 +1,6 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <sdf version="1.8">
-  <world name="leo_marsyard">
+  <world name="leo_empty">
 
     <physics name="1ms" type="ignored">
       <max_step_size>0.001</max_step_size>
@@ -24,7 +24,7 @@
       name="ignition::gazebo::systems::UserCommands">
     </plugin>
     <plugin filename="libignition-gazebo-imu-system.so"
-        name="ignition::gazebo::systems::Imu">
+      name="ignition::gazebo::systems::Imu">
     </plugin>
 
     <light name="sun" type="directional">

@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 
+# TODO zrobić jak najwięcej na namespaceach i dodać <topic> do gazebowego plugina jointstate publishera
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -43,39 +44,34 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
     )
 
     if robot_name == "":
-        robot_state_publisher_node_name = "robot_state_publisher"
         robot_gazebo_name = "leo_rover"
         topic_bridge_node_name = "topic_bridge"
-        image_bridge_node_name = "image_bridge"
     else:
-        robot_state_publisher_node_name = robot_name + "_robot_state_publisher"
         robot_gazebo_name = "leo_rover_" + robot_name
         topic_bridge_node_name = robot_name + "_topic_bridge"
-        image_bridge_node_name = robot_name + "_image_bridge"
 
     # Launch robot state publisher node
     robot_state_publisher = Node(
+        namespace=robot_name,
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        name=robot_state_publisher_node_name,
+        name="robot_state_publisher",
         output="both",
         parameters=[
             {"use_sim_time": True},
             {"robot_description": robot_desc},
         ],
-        remappings=[
-            ("/robot_description", robot_name + "/robot_description"),
-        ],
     )
     # Spawn a robot inside a simulation
     leo_rover = Node(
+        namespace=robot_name,
         package="ros_gz_sim",
         executable="create",
         name="ros_gz_sim_create",
         output="both",
         arguments=[
             "-topic",
-            robot_name + "/robot_description",
+            "robot_description",
             "-name",
             robot_gazebo_name,
             "-z",
@@ -89,37 +85,29 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
         executable="parameter_bridge",
         name=topic_bridge_node_name,
         arguments=[
-            "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
             robot_name + "/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist",
             robot_name + "/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry",
             robot_name + "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
             robot_name + "/imu/data_raw@sensor_msgs/msg/Imu[ignition.msgs.IMU",
             robot_name
             + "/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
-            "world/leo_marsyard/model/"
-            + robot_gazebo_name
-            + "/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model",
+            robot_name + "/joint_states@sensor_msgs/msg/JointState[ignition.msgs.Model",
         ],
         parameters=[
             {
                 "qos_overrides./tf_static.publisher.durability": "transient_local",
             }
         ],
-        remappings=[
-            (
-                "world/leo_marsyard/model/" + robot_gazebo_name + "/joint_state",
-                robot_name + "/joint_states",
-            ),
-        ],
         output="screen",
     )
 
     # Camera image bridge
     image_bridge = Node(
+        namespace=robot_name,
         package="ros_gz_image",
         executable="image_bridge",
-        name=image_bridge_node_name,
-        arguments=[robot_name + "/camera/image_raw"],
+        name="image_bridge",
+        arguments=["camera/image_raw"],
         output="screen",
     )
     return [

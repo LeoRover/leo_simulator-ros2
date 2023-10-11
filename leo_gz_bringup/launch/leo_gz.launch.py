@@ -28,6 +28,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -38,7 +39,7 @@ def generate_launch_description():
 
     sim_world = DeclareLaunchArgument(
         "sim_world",
-        default_value=os.path.join(pkg_project_worlds, "worlds", "empty.sdf"),
+        default_value=os.path.join(pkg_project_worlds, "worlds", "leo_empty.sdf"),
         description="Path to the Gazebo world file",
     )
 
@@ -56,10 +57,27 @@ def generate_launch_description():
         ),
     )
 
+    # Bridge ROS topics and Gazebo messages for establishing communication
+    topic_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="clock_bridge",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
+        ],
+        parameters=[
+            {
+                "qos_overrides./tf_static.publisher.durability": "transient_local",
+            }
+        ],
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             sim_world,
             gz_sim,
             robot_sim,
+            topic_bridge,
         ]
     )
