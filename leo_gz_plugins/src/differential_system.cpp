@@ -133,10 +133,11 @@ public:
   }
 };
 
-}
+} // namespace leo_gz
 
 ADD_PLUGIN(
   leo_gz::DifferentialSystem,
   gazebo::System,
   leo_gz::DifferentialSystem::ISystemConfigure,
   leo_gz::DifferentialSystem::ISystemUpdate)
+  

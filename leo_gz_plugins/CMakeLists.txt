@@ -15,10 +15,10 @@ if(DEFINED ENV{GZ_VERSION})
   if($ENV{GZ_VERSION} STREQUAL "fortress")
     find_package(ignition-plugin1 REQUIRED COMPONENTS register)
     set(IGN_PLUGIN_VER ${ignition-plugin1_VERSION_MAJOR})
-    
+
     find_package(ignition-common4 REQUIRED)
     set(IGN_COMMON_VER ${ignition-common4_VERSION_MAJOR})
-    
+
     find_package(ignition-gazebo6 REQUIRED)
     set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
 
@@ -32,13 +32,13 @@ if(DEFINED ENV{GZ_VERSION})
   else() #garden
     find_package(gz-plugin2 REQUIRED COMPONENTS register)
     set(GZ_PLUGIN_VER ${gz-plugin2_VERSION_MAJOR})
-    
+
     find_package(gz-sim7 REQUIRED)
     set(GZ_SIM_VER ${gz-sim7_VERSION_MAJOR})
-    
+
     target_link_libraries(leo_gazebo_differential_plugin
       gz-sim${GZ_SIM_VER}::gz-sim${GZ_SIM_VER}
-      gz-plugin${GZ_PLUGIN_VER}::gz-plugin${GZ_PLUGIN_VER}  
+      gz-plugin${GZ_PLUGIN_VER}::gz-plugin${GZ_PLUGIN_VER}
     )
   endif()
 

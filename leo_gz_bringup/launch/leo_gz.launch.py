@@ -11,27 +11,27 @@ from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     # Setup project paths
-    pkg_ros_gz_sim = get_package_share_directory("ros_gz_sim")
-    pkg_project_gazebo = get_package_share_directory("leo_gz_bringup")
-    pkg_project_worlds = get_package_share_directory("leo_gz_worlds")
+    pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
+    pkg_project_gazebo = get_package_share_directory('leo_gz_bringup')
+    pkg_project_worlds = get_package_share_directory('leo_gz_worlds')
 
     sim_world = DeclareLaunchArgument(
-        "sim_world",
-        default_value=os.path.join(pkg_project_worlds, "worlds", "empty.sdf"),
-        description="Path to the Gazebo world file",
+        'sim_world',
+        default_value=os.path.join(pkg_project_worlds, 'worlds', 'empty.sdf'),
+        description='Path to the Gazebo world file',
     )
 
     # Setup to launch the simulator and Gazebo world
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_ros_gz_sim, "launch", "gz_sim.launch.py")
+            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')
         ),
-        launch_arguments={"gz_args": LaunchConfiguration("sim_world")}.items(),
+        launch_arguments={'gz_args': LaunchConfiguration('sim_world')}.items(),
     )
 
     robot_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(pkg_project_gazebo, "launch", "spawn_robot.launch.py")
+            os.path.join(pkg_project_gazebo, 'launch', 'spawn_robot.launch.py')
         ),
     )
 
