@@ -1,3 +1,4 @@
+//Copyright 2023 Fictionlab
 #ifdef USE_IGNITION
 #define ADD_PLUGIN IGNITION_ADD_PLUGIN
 #include <ignition/gazebo/System.hh>
@@ -133,11 +134,10 @@ public:
   }
 };
 
-} // namespace leo_gz
+}// namespace leo_gz
 
 ADD_PLUGIN(
   leo_gz::DifferentialSystem,
   gazebo::System,
   leo_gz::DifferentialSystem::ISystemConfigure,
   leo_gz::DifferentialSystem::ISystemUpdate)
-  
