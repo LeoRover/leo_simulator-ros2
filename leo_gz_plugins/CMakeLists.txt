@@ -7,29 +7,13 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
+add_library(leo_gazebo_differential_plugin SHARED
+src/differential_system.cpp)
+
 if(DEFINED ENV{GZ_VERSION})
   message("GZ_VERSION is set to $ENV{GZ_VERSION}")
-  add_library(leo_gazebo_differential_plugin SHARED
-    src/differential_system.cpp)
 
-  if($ENV{GZ_VERSION} STREQUAL "fortress")
-    find_package(ignition-plugin1 REQUIRED COMPONENTS register)
-    set(IGN_PLUGIN_VER ${ignition-plugin1_VERSION_MAJOR})
-
-    find_package(ignition-common4 REQUIRED)
-    set(IGN_COMMON_VER ${ignition-common4_VERSION_MAJOR})
-
-    find_package(ignition-gazebo6 REQUIRED)
-    set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
-
-    add_definitions(-DUSE_IGNITION)
-
-    target_link_libraries(leo_gazebo_differential_plugin
-      ignition-common${IGN_COMMON_VER}::ignition-common${IGN_COMMON_VER}
-      ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
-      ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
-    )
-  else() #garden
+  if($ENV{GZ_VERSION} STREQUAL "garden")
     find_package(gz-plugin2 REQUIRED COMPONENTS register)
     set(GZ_PLUGIN_VER ${gz-plugin2_VERSION_MAJOR})
 
@@ -41,10 +25,24 @@ if(DEFINED ENV{GZ_VERSION})
       gz-plugin${GZ_PLUGIN_VER}::gz-plugin${GZ_PLUGIN_VER}
     )
   endif()
-
 else()
-  message(FATAL_ERROR "Enviormental variable GZ_VERSION is not set. Aborting build.")
-  return()
+  #If GZ_VERSION not set default to Fortress
+  find_package(ignition-plugin1 REQUIRED COMPONENTS register)
+  set(IGN_PLUGIN_VER ${ignition-plugin1_VERSION_MAJOR})
+
+  find_package(ignition-common4 REQUIRED)
+  set(IGN_COMMON_VER ${ignition-common4_VERSION_MAJOR})
+
+  find_package(ignition-gazebo6 REQUIRED)
+  set(IGN_GAZEBO_VER ${ignition-gazebo6_VERSION_MAJOR})
+
+  add_definitions(-DUSE_IGNITION)
+
+  target_link_libraries(leo_gazebo_differential_plugin
+    ignition-common${IGN_COMMON_VER}::ignition-common${IGN_COMMON_VER}
+    ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
+    ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
+  )
 endif()
 
 set_property(TARGET leo_gazebo_differential_plugin PROPERTY CXX_STANDARD 17)
