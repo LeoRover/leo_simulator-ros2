@@ -5,7 +5,6 @@
   <version>1.1.0</version>
   <description>Bringup package for Leo Rover Gazebo simulation in ROS 2</description>
   <maintainer email="support@fictionlab.pl">Fictionlab</maintainer>
-  <author email="janek@fictionlab.pl">jh</author>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
