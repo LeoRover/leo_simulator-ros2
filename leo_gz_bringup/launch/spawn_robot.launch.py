@@ -1,4 +1,4 @@
-# Copyright (c) [2023] [Jan Hernas]
+# Copyright 2023 Jan Hernas
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the 'Software'), to deal
@@ -18,14 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+
 import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchContext, LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
-import xacro
 from launch_ros.actions import Node
+import xacro
 
 
 def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
