@@ -15,7 +15,6 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_cmake_copyright</test_depend>
   <test_depend>ament_cmake_lint_cmake</test_depend>
-  <test_depend>ament_cmake_flake8</test_depend>
   <test_depend>ament_cmake_mypy</test_depend>
   <test_depend>ament_cmake_xmllint</test_depend>
 
