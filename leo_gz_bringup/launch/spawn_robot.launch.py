@@ -19,7 +19,6 @@
 # THE SOFTWARE.
 
 
-# TODO zrobić jak najwięcej na namespaceach i dodać <topic> do gazebowego plugina jointstate publishera
 import os
 
 from ament_index_python.packages import get_package_share_directory
