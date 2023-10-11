@@ -10,6 +10,8 @@
 
   <license>MIT</license>
 
+  <author email="janek@fictionlab.pl">Jan Hernas</author>
+
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <exec_depend>leo_gz_bringup</exec_depend>
@@ -22,6 +24,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <architecture_independent/>
+    <architecture_independent />
   </export>
 </package>

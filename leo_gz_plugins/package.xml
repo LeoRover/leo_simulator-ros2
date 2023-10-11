@@ -3,9 +3,13 @@
 <package format="3">
     <name>leo_gz_plugins</name>
     <version>1.1.0</version>
+
     <description>Package with plugins for Leo Rover Gazebo simulation in ROS 2</description>
+
     <maintainer email="support@fictionlab.pl">Fictionlab</maintainer>
     <license>MIT</license>
+    <author email="janek@fictionlab.pl">Jan Hernas</author>
+
     <buildtool_depend>ament_cmake</buildtool_depend>
     <!-- Garden -->
     <depend condition="$GZ_VERSION == garden or $IGNITION_VERSION == garden">gz-plugin2</depend>
@@ -17,6 +21,7 @@
     <depend condition="$GZ_VERSION == '' and $IGNITION_VERSION == ''">ignition-plugin1</depend>
     <depend condition="$GZ_VERSION == '' and $IGNITION_VERSION == ''">ignition-common4</depend>
     <depend condition="$GZ_VERSION == '' and $IGNITION_VERSION == ''">ignition-gazebo6</depend>
+
     <test_depend>ament_lint_auto</test_depend>
     <test_depend>ament_cmake_copyright</test_depend>
     <test_depend>ament_cmake_cpplint</test_depend>
