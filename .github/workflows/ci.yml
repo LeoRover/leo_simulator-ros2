@@ -40,10 +40,10 @@ jobs:
           use-ros2-testing: ${{ matrix.ROS_REPO == 'testing' }}
       - name: Install Gazebo
         run: |
-          echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list
-          wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add -
-          apt-get update
-          apt-get install -y libgz-sim7-dev
+          sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+          wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get install -y libgz-sim7-dev
       - name: Run ROS CI
         uses: ros-tooling/action-ros-ci@v0.3
         with:
