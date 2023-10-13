@@ -44,10 +44,10 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
 
     if robot_name == "":
         robot_gazebo_name = "leo_rover"
-        topic_bridge_node_name = "topic_bridge"
+        node_name_prefix = ""
     else:
         robot_gazebo_name = "leo_rover_" + robot_name
-        topic_bridge_node_name = robot_name + "_topic_bridge"
+        node_name_prefix = robot_name + "_"
 
     # Launch robot state publisher node
     robot_state_publisher = Node(
@@ -82,7 +82,7 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
     topic_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        name=topic_bridge_node_name,
+        name=node_name_prefix + "parameter_bridge",
         arguments=[
             robot_name + "/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist",
             robot_name + "/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry",
@@ -102,11 +102,10 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
 
     # Camera image bridge
     image_bridge = Node(
-        namespace=robot_name,
         package="ros_gz_image",
         executable="image_bridge",
-        name="image_bridge",
-        arguments=["camera/image_raw"],
+        name=node_name_prefix + "image_bridge",
+        arguments=[robot_name + "/camera/image_raw"],
         output="screen",
     )
     return [
