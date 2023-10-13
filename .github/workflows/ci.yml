@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - humble
+  pull_request:
+    branches:
+      - humble
+
+jobs:
+  fortress_ci:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        ROS_REPO: [testing, main]
+    steps:
+      - name: Setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          use-ros2-testing: ${{ matrix.ROS_REPO == 'testing' }}
+      - name: Run ROS CI
+        uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          target-ros2-distro: humble
+          import-token: ${{ secrets.GITHUB_TOKEN }}
+
+  garden_ci:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        ROS_REPO: [testing, main]
+    env:
+      GZ_VERSION: garden
+    steps:
+      - name: Setup ROS environment
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          use-ros2-testing: ${{ matrix.ROS_REPO == 'testing' }}
+      - name: Install Gazebo
+        run: |
+          sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+          wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get install -y libgz-sim7-dev
+      - name: Run ROS CI
+        uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          target-ros2-distro: humble
+          import-token: ${{ secrets.GITHUB_TOKEN }}
+
+  black_check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Check formatting
+        uses: psf/black@stable
+        with:
+          version: "~= 23.0"
