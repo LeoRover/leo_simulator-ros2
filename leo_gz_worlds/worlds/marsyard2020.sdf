@@ -1,7 +1,15 @@
 <?xml version="1.0" ?>
 <sdf version="1.8">
   <world name="leo_marsyard">
-
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <dart>
+        <!-- Heightmaps behave better with the bullet collision detector -->
+        <collision_detector>bullet</collision_detector>
+      </dart>
+    </physics>
+    
     <plugin
       filename="ignition-gazebo-physics-system"
       name="ignition::gazebo::systems::Physics">
