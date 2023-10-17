@@ -32,7 +32,6 @@ else()
   add_definitions(-DUSE_IGNITION)
 
   target_link_libraries(leo_gz_differential_plugin
-    ignition-common${IGN_COMMON_VER}::ignition-common${IGN_COMMON_VER}
     ignition-gazebo${IGN_GAZEBO_VER}::ignition-gazebo${IGN_GAZEBO_VER}
     ignition-plugin${IGN_PLUGIN_VER}::ignition-plugin${IGN_PLUGIN_VER}
   )

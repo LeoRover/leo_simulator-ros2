@@ -61,7 +61,7 @@ public:
 
     if (!model_.Valid(ecm)) {
       ignerr << "DifferentialSystem plugin should be attached to a model "
-            << "entity. Failed to initialize." << std::endl;
+             << "entity. Failed to initialize." << std::endl;
       return;
     }
 
