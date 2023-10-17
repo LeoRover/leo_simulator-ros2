@@ -55,7 +55,7 @@ public:
     const gazebo::Entity & entity,
     const std::shared_ptr<const sdf::Element> & sdf,
     gazebo::EntityComponentManager & ecm,
-    gazebo::EventManager & eventMgr) override
+    gazebo::EventManager & /*eventMgr*/) override
   {
     model_ = gazebo::Model(entity);
 
