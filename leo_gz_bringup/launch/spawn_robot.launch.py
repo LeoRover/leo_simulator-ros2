@@ -31,7 +31,7 @@ import xacro
 
 def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
     pkg_project_description = get_package_share_directory("leo_description")
-    robot_name = context.perform_substitution(namespace)
+    robot_ns = context.perform_substitution(namespace)
 
     robot_desc = xacro.process(
         os.path.join(
@@ -39,19 +39,19 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
             "urdf",
             "leo_sim.urdf.xacro",
         ),
-        mappings={"robot_ns": robot_name},
+        mappings={"robot_ns": robot_ns},
     )
 
-    if robot_name == "":
+    if robot_ns == "":
         robot_gazebo_name = "leo_rover"
         node_name_prefix = ""
     else:
-        robot_gazebo_name = "leo_rover_" + robot_name
-        node_name_prefix = robot_name + "_"
+        robot_gazebo_name = "leo_rover_" + robot_ns
+        node_name_prefix = robot_ns + "_"
 
     # Launch robot state publisher node
     robot_state_publisher = Node(
-        namespace=robot_name,
+        namespace=robot_ns,
         package="robot_state_publisher",
         executable="robot_state_publisher",
         name="robot_state_publisher",
@@ -63,7 +63,7 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
     )
     # Spawn a robot inside a simulation
     leo_rover = Node(
-        namespace=robot_name,
+        namespace=robot_ns,
         package="ros_gz_sim",
         executable="create",
         name="ros_gz_sim_create",
@@ -84,13 +84,13 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
         executable="parameter_bridge",
         name=node_name_prefix + "parameter_bridge",
         arguments=[
-            robot_name + "/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist",
-            robot_name + "/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry",
-            robot_name + "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
-            robot_name + "/imu/data_raw@sensor_msgs/msg/Imu[ignition.msgs.IMU",
-            robot_name
+            robot_ns + "/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist",
+            robot_ns + "/odom@nav_msgs/msg/Odometry[ignition.msgs.Odometry",
+            robot_ns + "/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V",
+            robot_ns + "/imu/data_raw@sensor_msgs/msg/Imu[ignition.msgs.IMU",
+            robot_ns
             + "/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo",
-            robot_name + "/joint_states@sensor_msgs/msg/JointState[ignition.msgs.Model",
+            robot_ns + "/joint_states@sensor_msgs/msg/JointState[ignition.msgs.Model",
         ],
         parameters=[
             {
@@ -105,7 +105,7 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
         package="ros_gz_image",
         executable="image_bridge",
         name=node_name_prefix + "image_bridge",
-        arguments=[robot_name + "/camera/image_raw"],
+        arguments=[robot_ns + "/camera/image_raw"],
         output="screen",
     )
     return [
@@ -118,12 +118,12 @@ def spawn_robot(context: LaunchContext, namespace: LaunchConfiguration):
 
 def generate_launch_description():
     name_argument = DeclareLaunchArgument(
-        "robot_name",
+        "robot_ns",
         default_value="",
         description="Robot namespace",
     )
 
-    namespace = LaunchConfiguration("robot_name")
+    namespace = LaunchConfiguration("robot_ns")
 
     return LaunchDescription(
         [name_argument, OpaqueFunction(function=spawn_robot, args=[namespace])]

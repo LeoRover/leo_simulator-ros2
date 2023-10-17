@@ -43,6 +43,12 @@ def generate_launch_description():
         description="Path to the Gazebo world file",
     )
 
+    robot_ns = DeclareLaunchArgument(
+        "robot_ns",
+        default_value="",
+        description="Robot namespace",
+    )
+
     # Setup to launch the simulator and Gazebo world
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -51,10 +57,11 @@ def generate_launch_description():
         launch_arguments={"gz_args": LaunchConfiguration("sim_world")}.items(),
     )
 
-    robot_sim = IncludeLaunchDescription(
+    spawn_robot = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_project_gazebo, "launch", "spawn_robot.launch.py")
         ),
+        launch_arguments={"robot_ns": LaunchConfiguration("robot_ns")}.items(),
     )
 
     # Bridge ROS topics and Gazebo messages for establishing communication
@@ -76,8 +83,9 @@ def generate_launch_description():
     return LaunchDescription(
         [
             sim_world,
+            robot_ns,
             gz_sim,
-            robot_sim,
+            spawn_robot,
             topic_bridge,
         ]
     )
