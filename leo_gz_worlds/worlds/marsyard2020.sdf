@@ -5,7 +5,6 @@
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
       <dart>
-        <!-- Heightmaps behave better with the bullet collision detector -->
         <collision_detector>bullet</collision_detector>
       </dart>
     </physics>
