@@ -19,24 +19,15 @@
 // THE SOFTWARE.
 
 
-#ifdef USE_IGNITION
-#define ADD_PLUGIN IGNITION_ADD_PLUGIN
+#define SUPPRESS_IGNITION_HEADER_DEPRECATION
 #include <ignition/gazebo/System.hh>
 #include <ignition/gazebo/Model.hh>
 #include <ignition/gazebo/components.hh>
 #include <ignition/plugin/Register.hh>
-#define  gazebo ignition::gazebo
-#define error ignerr
-#define msg ignmsg
+#ifdef USE_IGNITION
+namespace gazebo = ignition::gazebo;
 #else
-#define ADD_PLUGIN GZ_ADD_PLUGIN
-#include <gz/sim/System.hh>
-#include <gz/sim/Model.hh>
-#include <gz/sim/components.hh>
-#include <gz/plugin/Register.hh>
-#define  gazebo gz::sim
-#define error gzerr
-#define msg gzmsg
+namespace gazebo = gz::sim;
 #endif
 
 namespace leo_gz
@@ -69,25 +60,25 @@ public:
     model_ = gazebo::Model(entity);
 
     if (!model_.Valid(ecm)) {
-      error << "DifferentialSystem plugin should be attached to a model "
+      ignerr << "DifferentialSystem plugin should be attached to a model "
             << "entity. Failed to initialize." << std::endl;
       return;
     }
 
     if (!sdf->HasElement("jointA")) {
-      error << "No jointA element present. DifferentialSystem could not be loaded." << std::endl;
+      ignerr << "No jointA element present. DifferentialSystem could not be loaded." << std::endl;
       return;
     }
     auto joint_a_name_ = sdf->Get<std::string>("jointA");
 
     if (!sdf->HasElement("jointB")) {
-      error << "No jointB element present. DifferentialSystem could not be loaded." << std::endl;
+      ignerr << "No jointB element present. DifferentialSystem could not be loaded." << std::endl;
       return;
     }
     auto joint_b_name_ = sdf->Get<std::string>("jointB");
 
     if (!sdf->HasElement("forceConstant")) {
-      error << "No forceConstant element present. DifferentialSystem could not be loaded." <<
+      ignerr << "No forceConstant element present. DifferentialSystem could not be loaded." <<
         std::endl;
       return;
     }
@@ -95,33 +86,33 @@ public:
 
     joint_a_ = model_.JointByName(ecm, joint_a_name_);
     if (joint_a_ == gazebo::kNullEntity) {
-      error << "Failed to find joint named \'" << joint_a_name_ << "\'" << std::endl;
+      ignerr << "Failed to find joint named \'" << joint_a_name_ << "\'" << std::endl;
       return;
     }
 
     joint_b_ = model_.JointByName(ecm, joint_b_name_);
     if (joint_b_ == gazebo::kNullEntity) {
-      error << "Failed to find joint named \'" << joint_b_name_ << "\'" << std::endl;
+      ignerr << "Failed to find joint named \'" << joint_b_name_ << "\'" << std::endl;
       return;
     }
 
     if (!ecm.EntityHasComponentType(joint_a_, gazebo::components::JointPosition().TypeId())) {
-      msg << "Joint A does not have JointPosition component. Creating one..." << std::endl;
+      ignmsg << "Joint A does not have JointPosition component. Creating one..." << std::endl;
       ecm.CreateComponent(joint_a_, gazebo::components::JointPosition());
     }
 
     if (!ecm.EntityHasComponentType(joint_b_, gazebo::components::JointPosition().TypeId())) {
-      msg << "Joint B does not have JointPosition component. Creating one..." << std::endl;
+      ignmsg << "Joint B does not have JointPosition component. Creating one..." << std::endl;
       ecm.CreateComponent(joint_b_, gazebo::components::JointPosition());
     }
 
     if (!ecm.EntityHasComponentType(joint_a_, gazebo::components::JointForceCmd().TypeId())) {
-      msg << "Joint A does not have JointForceCmd component. Creating one..." << std::endl;
+      ignmsg << "Joint A does not have JointForceCmd component. Creating one..." << std::endl;
       ecm.CreateComponent(joint_a_, gazebo::components::JointForceCmd({0}));
     }
 
     if (!ecm.EntityHasComponentType(joint_b_, gazebo::components::JointForceCmd().TypeId())) {
-      msg << "Joint B does not have JointForceCmd component. Creating one..." << std::endl;
+      ignmsg << "Joint B does not have JointForceCmd component. Creating one..." << std::endl;
       ecm.CreateComponent(joint_b_, gazebo::components::JointForceCmd({0}));
     }
 
@@ -156,7 +147,7 @@ public:
 
 }  // namespace leo_gz
 
-ADD_PLUGIN(
+IGNITION_ADD_PLUGIN(
   leo_gz::DifferentialSystem,
   gazebo::System,
   leo_gz::DifferentialSystem::ISystemConfigure,
