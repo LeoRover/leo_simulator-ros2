@@ -2,8 +2,8 @@
 Changelog for package leo_gz_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2023-11-08)
+------------------
 * Fix warning about unused parameter
 * Update rosdeps
 * Fix wrong import and code formatting

@@ -2,8 +2,8 @@
 Changelog for package leo_gz_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2023-11-08)
+------------------
 * Add ament_black test to leo_gz_bringup (`#4 <https://github.com/LeoRover/leo_simulator-ros2/issues/4>`_)
 * Revert default world to empty world
 * Fix wrong import and code formatting

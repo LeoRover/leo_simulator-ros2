@@ -2,8 +2,8 @@
 Changelog for package leo_gz_worlds
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2023-11-08)
+------------------
 * Rename hook file name
 * Remove imu system from worlds
 * Fix wrong import and code formatting
