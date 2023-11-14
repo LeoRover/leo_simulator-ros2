@@ -4,9 +4,9 @@
     <physics name="1ms" type="ignored">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
-      <dart>
+      <!--<dart>
         <collision_detector>bullet</collision_detector>
-      </dart>
+      </dart>-->
     </physics>
 
     <plugin
