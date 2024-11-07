@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - ros2
+      - jazzy
   pull_request:
     branches:
-      - ros2
+      - jazzy
 
 jobs:
   harmonic_ci:
