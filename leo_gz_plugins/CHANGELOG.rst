@@ -2,6 +2,11 @@
 Changelog for package leo_gz_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add dummy .sh files for .dsv hooks (`#8 <https://github.com/LeoRover/leo_simulator-ros2/issues/8>`_)
+* Contributors: Jan Hernas
+
 2.0.0 (2024-04-27)
 ------------------
 * Get rid of all the ignition references
