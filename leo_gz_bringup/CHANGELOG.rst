@@ -4,7 +4,7 @@ Changelog for package leo_gz_bringup
 
 Forthcoming
 -----------
-* Disable broken linters for now
+* Fix mypy errors (`#11 <https://github.com/LeoRover/leo_simulator-ros2/issues/11>`_) (`#12 <https://github.com/LeoRover/leo_simulator-ros2/issues/12>`_)
 * Add launch_ros to dependencies
 * Contributors: Błażej Sowa
 
