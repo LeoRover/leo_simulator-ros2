@@ -2,8 +2,8 @@
 Changelog for package leo_gz_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.1 (2024-11-08)
+------------------
 * Add dummy .sh files for .dsv hooks (`#8 <https://github.com/LeoRover/leo_simulator-ros2/issues/8>`_)
 * Contributors: Jan Hernas
 
