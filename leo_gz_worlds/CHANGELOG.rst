@@ -2,6 +2,11 @@
 Changelog for package leo_gz_worlds
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add imu plugin to each world (`#13 <https://github.com/LeoRover/leo_simulator-ros2/issues/13>`_) (`#14 <https://github.com/LeoRover/leo_simulator-ros2/issues/14>`_)
+* Contributors: Jan Hernas
+
 1.1.1 (2024-11-08)
 ------------------
 * Add dummy .sh files for .dsv hooks (`#8 <https://github.com/LeoRover/leo_simulator-ros2/issues/8>`_) (`#9 <https://github.com/LeoRover/leo_simulator-ros2/issues/9>`_)
