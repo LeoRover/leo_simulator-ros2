@@ -2,6 +2,9 @@
 Changelog for package leo_gz_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.0.1 (2024-11-08)
 ------------------
 * Fix mypy errors (`#11 <https://github.com/LeoRover/leo_simulator-ros2/issues/11>`_) (`#12 <https://github.com/LeoRover/leo_simulator-ros2/issues/12>`_)
