@@ -1,4 +1,4 @@
-name: CI-Jazzy
+name: CI-Rolling
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ on:
       - ros2
 
 jobs:
-  harmonic_ci:
+  ionic_ci:
     runs-on: ubuntu-22.04
     container:
       image: ubuntu:noble
@@ -26,5 +26,5 @@ jobs:
       - name: Run ROS CI
         uses: ros-tooling/action-ros-ci@0.3.8
         with:
-          target-ros2-distro: jazzy
+          target-ros2-distro: rolling
           import-token: ${{ secrets.GITHUB_TOKEN }}
