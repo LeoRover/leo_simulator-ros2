@@ -5,11 +5,8 @@ ROS 2 version | Gazebo version | Branch | Binaries hosted at
 Humble | Fortress | [humble](https://github.com/LeoRover/leo_simulator-ros2/tree/humble) | https://packages.ros.org
 Humble | Garden | [humble](https://github.com/LeoRover/leo_simulator-ros2/tree/humble) | only from source
 Humble | Harmonic | [humble](https://github.com/LeoRover/leo_simulator-ros2/tree/humble) | only from source
-Iron | Fortress | [iron](https://github.com/LeoRover/leo_simulator-ros2/tree/iron) | https://packages.ros.org
-Iron | Garden | [iron](https://github.com/LeoRover/leo_simulator-ros2/tree/iron) | only from source
-Iron | Harmonic | [iron](https://github.com/LeoRover/leo_simulator-ros2/tree/iron) | only from source
 Jazzy | Harmonic | [ros2](https://github.com/LeoRover/leo_simulator-ros2/tree/ros2) | https://packages.ros.org
-Rolling | Harmonic | [ros2](https://github.com/LeoRover/leo_simulator-ros2/tree/ros2) | https://packages.ros.org
+Rolling | Ionic | [ros2](https://github.com/LeoRover/leo_simulator-ros2/tree/ros2) | https://packages.ros.org
 
 ## Packages
 * `leo_simulator` - Metapackage which provides all other packages.
