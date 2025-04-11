@@ -2,8 +2,8 @@
 Changelog for package leo_gz_worlds
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.2 (2025-04-11)
+------------------
 * Add imu plugin to each world (`#13 <https://github.com/LeoRover/leo_simulator-ros2/issues/13>`_) (`#14 <https://github.com/LeoRover/leo_simulator-ros2/issues/14>`_)
 * Contributors: Jan Hernas
 
